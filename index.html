@@ -180,10 +180,10 @@
         /* Scroll animation for Ticker */
         @keyframes scroll {
             0% {
-                transform: translateX(100%);
+                transform: translateX(115%);
             }
             100% {
-                transform: translateX(-100%);
+                transform: translateX(-120%);
             }
         }
 
@@ -347,18 +347,17 @@
         setInterval(fetchCryptoData, 60000);
     </script>
 
-    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async id="tabelbtc">
-         {
-            "width": 1000,
-            "height": 490,
-            "defaultColumn": "overview",
-            "screener_type": "crypto_mkt",
-            "displayCurrency": "USD",
-            "colorTheme": "light",
-            "locale": "in"
-         }
-     </script>
-
+<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+    {
+       "width": "100%",
+       "height": 490,
+       "defaultColumn": "overview",
+       "screener_type": "crypto_mkt",
+       "displayCurrency": "USD",
+       "colorTheme": "dark",
+       "locale": "in"
+    }
+</script>
     <footer>
         <p>&copy; 2024 Crypto Trading Indicator. All Rights Reserved.</p>
     </footer>
