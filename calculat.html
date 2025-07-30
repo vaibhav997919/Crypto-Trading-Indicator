@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Trading Indicator - Home</title>
+    <style>
+        /* Importing Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1e1e1e;
+            /*color: #f5f5f5;*/
+            line-height: 1.6;
+        }
+
+        /* Title */
+        .title {
+            font-weight: 600;
+            font-size: 3rem;
+            text-align: center;
+            margin-top: 50px;
+            text-transform: uppercase;
+            color: #f1f1f1;
+            letter-spacing: 2px;
+            padding: 10px 0;
+            background: linear-gradient(90deg, #ff7f50, #00bfff);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .title span {
+            opacity: 0;
+            transform: translateY(-30px);
+            animation: drop 1s ease-out forwards;
+        }
+
+        @keyframes drop {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Crypto Category Section */
+        .crypto-categories {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            padding: 20px;
+        }
+
+        .category-box {
+            flex: 1;
+            margin: 0 15px;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow-y: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .category-box:hover {
+            transform: scale(1.05);
+            background-color: #00bfff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .category-box h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .category-box p {
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #222;
+            padding: 12px 0;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #f1f1f1;
+            font-size: 1.1rem;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #ff7f50;
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: #ccc;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        /* Ticker Section */
+        .crypto-ticker {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 15px 20px;
+            /* Matching website background */
+            color: white;
+            font-size: 0.9rem;  /* Reduced font size for better readability with more items */
+            overflow: hidden;
+            width: 100%;
+            margin: 0 auto;
+            border-radius: 8px;
+            max-width: 1200px;
+            flex-wrap: nowrap;  /* Ensures the ticker content stays in one line */
+        }
+
+        .crypto-ticker span {
+            margin-right: 20px;
+            white-space: nowrap;
+        }
+
+        .price-change {
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .price-change.positive {
+            color: green;
+        }
+
+        .price-change.negative {
+            color: red;
+        }
+
+        /* Scroll animation for Ticker */
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .crypto-ticker {
+            animation: scroll 15s linear infinite;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .crypto-categories {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .category-box {
+                margin-bottom: 20px;
+                width: 90%;
+            }
+
+            .crypto-ticker {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
+
+        /* Coin Details Section */
+        #coin-details {
+            padding: 40px;
+            background-color: #333;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+
+        #coin-details h2 {
+            font-size: 2rem;
+            color: #f5f5f5;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #00bfff;
+            border-radius: 5px;
+            margin-right: 10px;
+            background-color: #444;
+            color: #fff;
+        }
+
+        .input-group button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #00bfff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .input-group button:hover {
+            background-color: #ff7f50;
+        }
+
+        #details {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .card {
+            background-color: #444;
+            padding: 20px;
+            border-radius: 8px;
+            color: #f5f5f5;
+        }
+
+        .card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .card a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #00bfff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .card a:hover {
+            background-color: #ff7f50;
+        }
+        /* Your CSS remains the same */
+        .coin-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .coin-card img {
+            max-width: 50px;
+            height: auto;
+        }
+        .coin-card h3 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .coin-card p {
+            margin: 5px 0;
+        }
+        .coin-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .coin-card a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="title">
+            <span class="crypto">Crypto</span>
+            <span class="trading">Trading</span>
+            <span class="indicator">Indicator</span>
+        </h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="indicator.html">Indicators</a></li>
+                <li><a href="calculat.html">Coin Details</a></li>
+                <li><a href="agents.html">Top Agents</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="support.html">Support Center</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Coin Details Section -->
+    <section id="coin-details">
+        <h2>Coin Details</h2>
+        <div class="input-group">
+            <input type="text" id="coinInput" placeholder="Enter Coin Symbol or Name (e.g., BTC or Bitcoin)" />
+            <button class="button" onclick="fetchCoinDetails()">Search</button>
+        </div>
+        <div id="details" class="grid"></div>
+    </section>
+
+    <script>
+        // Fetch coin details and display the requested information
+        async function fetchCoinDetails() {
+            const symbol = document.getElementById('coinInput').value.toLowerCase(); // Convert input to lowercase
+            const details = document.getElementById('details');
+            details.innerHTML = '<p>Loading...</p>'; // Show loading while fetching data
+
+            try {
+                const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1`);
+                const data = await response.json();
+
+                // Filter coins that match the input
+                const filteredCoins = data.filter(coin => 
+                    coin.symbol.includes(symbol) || coin.name.toLowerCase().includes(symbol)
+                );
+
+                if (filteredCoins.length > 0) {
+                    details.innerHTML = filteredCoins.map(coin => `
+                        <div class="coin-card">
+                            <img src="${coin.image}" alt="${coin.name} Logo">
+                            <h3>${coin.name} (${coin.symbol.toUpperCase()})</h3>
+                            <p><strong>Description:</strong> ${coin.name} is a popular cryptocurrency.</p>
+                            <p><strong>Current Price:</strong> $${coin.current_price}</p>
+                            <p><strong>24h Change:</strong> ${coin.price_change_percentage_24h.toFixed(2)}%</p>
+                            <p><strong>Market Cap:</strong> $${coin.market_cap}</p>
+                            <p><strong>Volume:</strong> $${coin.total_volume}</p>
+                            <p><strong>Circulating Supply:</strong> ${coin.circulating_supply} ${coin.symbol.toUpperCase()}</p>
+                            <a href="https://www.${coin.name.toLowerCase()}.com" target="_blank">Visit Official Website</a>
+                        </div>
+                    `).join('');
+                } else {
+                    details.innerHTML = `<p>No coins found matching "${symbol}".</p>`;
+                }
+            } catch (error) {
+                details.innerHTML = `<p>Error: Unable to fetch data. Please try again later.</p>`;
+                console.error(error);
+            }
+        }
+    </script>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Crypto Trading Indicator. All rights reserved.</p>
+    </footer>
+</body>
+</html>

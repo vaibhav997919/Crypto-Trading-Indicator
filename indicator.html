@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Indicator with Dynamic Graph</title>
+    <style>
+        /* General Styling */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+            line-height: 1.6;
+            margin-top: 0;
+        }
+
+        html, body {
+            height: 100%; /* Ensures that the body takes full height */
+        }
+
+        .title {
+            font-weight: 600;
+            font-size: 3rem;
+            text-align: center;
+            margin-top: 50px;
+            text-transform: uppercase;
+            color: #f1f1f1;
+            letter-spacing: 2px;
+            padding: 10px 0;
+            background: linear-gradient(90deg, #ff7f50, #00bfff);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .title span {
+            opacity: 0;
+            transform: translateY(-30px);
+            animation: drop 1s ease-out forwards;
+        }
+
+        @keyframes drop {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #222;
+            padding: 12px 0;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #f1f1f1;
+            font-size: 1.1rem;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #ff7f50;
+            color: #fff;
+        }
+
+        /* App Container */
+        .app-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            margin-left:auto;
+            margin-right: auto;
+        }
+
+        /* Title Text Styling */
+        .app-container h1 {
+            font-size: 2.5rem; /* Adjusted size */
+            color: #333; /* Darker color for better contrast */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: #ff7f50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        #cryptoInput {
+            padding: 10px;
+            font-size: 1.1rem;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            width: 60%;
+            max-width: 400px;
+            margin-right: 10px;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .signal-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #signalMessage {
+            font-size: 1.2rem;
+            color: rgb(253, 205, 31);
+            font-weight: bold;
+        }
+
+        /* Centering the Chart Container */
+        .chart-container {
+            display: flex;
+            justify-content: center;  /* Horizontally centers the chart */
+            align-items: center;  /* Vertically centers the chart */
+            margin-top: 20px;
+            width: 100%;
+            height: 400px;
+        }
+
+        /* Ensuring the TradingView Widget is Full Width */
+        .tradingview-widget-container {
+            width: 100% !important;  /* Ensure it takes full width */
+            height: 100% !important; /* Ensure it takes full height */
+        }
+
+        @media (max-width: 768px) {
+            #cryptoInput {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Title and Navigation -->
+    <header>
+        <h1 class="title">
+            <span class="crypto">Crypto</span>
+            <span class="trading">Trading</span>
+            <span class="indicator">Indicator</span>
+        </h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="indicator.html">Indicators</a></li>
+                <li><a href="calculat.html">Coin Details</a></li>
+                <li><a href="agents.html">Top Agents</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="support.html">Support Center</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="app-container">
+        <h1>Crypto Indicator with Dynamic Graph</h1>
+
+        <div class="input-container">
+            <input type="text" id="cryptoInput" placeholder="Enter Crypto Symbol (e.g., BTC, ETH)">
+            <button onclick="getCryptoData()">Get Data</button>
+        </div>
+
+        <div class="signal-container">
+            <h2 id="signalMessage">Waiting for input...</h2>
+        </div>
+
+        <!-- Centered TradingView Chart -->
+        <div class="chart-container" id="tradingview_chart"></div>
+
+    </div>
+
+    <!-- TradingView Widget Script -->
+    <script src="https://s3.tradingview.com/tv.js"></script>
+
+    <script>
+        let widget;
+
+        function initializeTradingView(symbol) {
+            // If a widget already exists, remove it before creating a new one
+            if (widget) {
+                widget.remove();
+            }
+
+            // Initialize TradingView widget with the new symbol
+            widget = new TradingView.widget({
+                container_id: "tradingview_chart",
+                symbol: symbol,
+                interval: "60",
+                theme: "light",
+                toolbar_bg: "#f1f3f6",
+                hide_side_toolbar: false,
+                withdateranges: true,
+                allow_symbol_change: true,
+                details: true,
+                fullscreen: false,
+                autosize: true,
+                locale: "en"
+            });
+        }
+
+        async function getCryptoData() {
+            let cryptoSymbol = document.getElementById('cryptoInput').value.trim();
+
+            if (!cryptoSymbol) {
+                alert("Please enter a cryptocurrency symbol.");
+                return;
+            }
+
+            // Convert input to uppercase
+            cryptoSymbol = cryptoSymbol.toUpperCase();
+
+            // Map common names to symbols, if necessary
+            const nameMap = {
+                'BITCOIN': 'BTC',
+                'ETHEREUM': 'ETH',
+                'RIPPLE': 'XRP',
+                'DOGECOIN': 'DOGE'
+            };
+
+            cryptoSymbol = nameMap[cryptoSymbol] || cryptoSymbol;
+
+            // Ensure the symbol ends with "USDT"
+            if (!cryptoSymbol.endsWith("USDT")) {
+                cryptoSymbol += "USDT";
+            }
+
+            try {
+                // Fetch data from Binance API
+                const response = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${cryptoSymbol}`);
+                if (!response.ok) {
+                    throw new Error('Symbol not found or API request failed.');
+                }
+
+                const data = await response.json();
+
+                const lastPrice = parseFloat(data.lastPrice);
+                const priceChangePercent = parseFloat(data.priceChangePercent);
+                const signalMessage = document.getElementById('signalMessage');
+
+                if (priceChangePercent > 5) {
+                    signalMessage.textContent = `BUY NOW! ${cryptoSymbol} is trending up by ${priceChangePercent}%`;
+                    signalMessage.style.color = 'green';
+                } else if (priceChangePercent < -5) {
+                    signalMessage.textContent = `SELL NOW! ${cryptoSymbol} is trending down by ${priceChangePercent}%`;
+                    signalMessage.style.color = 'red';
+                } else {
+                    signalMessage.textContent = `HOLD! ${cryptoSymbol} price is relatively stable with a ${priceChangePercent}% change.`;
+                    signalMessage.style.color = 'orange';
+                }
+
+                // Update the TradingView chart with the new symbol
+                initializeTradingView(cryptoSymbol);
+
+            } catch (error) {
+                alert("Error fetching data. Please ensure the cryptocurrency symbol is correct.");
+                console.error(error);
+            }
+        }
+
+        // Initialize TradingView with a default symbol when the page loads
+        window.onload = function () {
+            initializeTradingView("BTCUSDT");
+        };
+    </script>
+
+</body>
+</html>

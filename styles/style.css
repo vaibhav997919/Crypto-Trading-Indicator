@@ -1,0 +1,64 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  main {
+    padding: 2rem;
+  }
+  
+  h2 {
+    color: #444;
+    font-size: 1.5rem;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Crypto Movers */
+  .crypto-movers {
+    margin-bottom: 2rem;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    background-color: #fff;
+    margin: 0.5rem auto;
+    padding: 1rem;
+    border-radius: 8px;
+    width: 60%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Back to Home Section */
+  .back-to-home {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  /* Indicator Page Styles */
+  .indicator-details {
+    text-align: center;
+  }
+  
